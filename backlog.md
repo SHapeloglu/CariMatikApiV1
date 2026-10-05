@@ -1,21 +1,5 @@
-# backlog.md — 📊 Muhasebe API Fikir / Özellik Havuzu
+# backlog.md — CariMatik API v1 Fikir Havuzu
 
-Bu dosya henüz önceliklendirilmemiş, "bir gün yapılabilir" fikirler ve özellik talepleri içindir. Bir fikir somutlaşıp sıraya girdiğinde buradan çıkar, `task.md`ye taşınır.
+Bu repo için yeni geliştirme önerilmez; fikirler **CariMatikApiV2** `backlog.md`'sine yazılmalı.
 
-## Fikirler
-
-_(henüz boş — yeni bir fikir geldiğinde aşağıdaki şablonla ekle)_
-
-## Koddaki TODO / FIXME Notları
-
-_(kodda TODO/FIXME notu bulunamadı)_
-
-## Ekleme Şablonu
-
-```markdown
-### Başlık
-
-- **Kategori:** yeni özellik / iyileştirme / teknik borç / araştırma
-- **Neden istendi:** kısa gerekçe
-- **Notlar:** büyüklük tahmini, bağımlılıklar, riskler
-```
+- (Arşivlenmezse) `requirements.txt` ve `.gitignore` (`config.py`) ekle.

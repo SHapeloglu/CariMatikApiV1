@@ -1,40 +1,23 @@
-# CLAUDE.md
+# CLAUDE.md — CariMatik API v1 (FastAPI REST katmanı)
 
-Bu dosya, bu proje üzerinde çalışırken Claude'un (Claude Code dahil) izlemesi gereken bağlamı ve kuralları içerir.
+CariMatik (FinansApp) Flask uygulamasının MySQL şemasını, Flask koduna dokunmadan REST olarak dışarı açan **ilk** FastAPI denemesi. Tek dosya (`api.py`, ~1.900 satır): SQLAlchemy modelleri + Pydantic şemaları + ~120 endpoint. **Kimlik doğrulama yok.**
 
-## Proje
+- GitHub: https://github.com/SHapeloglu/CariMatikApiV1 (2026-04-29 → 05-02, web yüklemeleri)
+- Halefi: **CariMatikApiV2** (JWT + API kaynağı yönetimi eklendi). Yeni iş V2'de yapılmalı; bu repo arşiv niteliğinde.
+- Ana uygulama: **CariMatik** · Mimari: `architect.md` · Görevler: `task.md` · Fikirler: `backlog.md` · Günlük: `session.md`
 
-**📊 Muhasebe API** — Flask tabanlı muhasebe uygulamasının tüm tablolarını dışarıya açan **FastAPI** REST katmanı. Mevcut Flask uygulamasına (`app.py`) hiç dokunmadan, aynı MySQL veritabanı üzerinde çalışır. ---
-
-- GitHub: https://github.com/SHapeloglu/CariMatikApiV1
-
-## Teknoloji Yığını
-
-- Python
-
-## Önemli Dosyalar
-
-_(belirgin giriş noktası bulunamadı)_
-
-Mimari ayrıntılar için bkz. `architect.md`.
-
-## Sık Kullanılan Komutlar
+## Çalıştırma
 
 ```bash
-# Henüz belgelenmiş komut yok — kurulum/çalıştırma adımlarını buraya ekleyin.
+pip install fastapi uvicorn sqlalchemy pymysql cryptography pydantic werkzeug   # requirements.txt yok
+# CariMatik'in config.py dosyası bu klasöre kopyalanmalı (DB_HOST/PORT/USER/PASSWORD/NAME)
+uvicorn api:app --reload --port 8000     # Swagger: http://localhost:8000/docs
 ```
 
-## Kurallar
+## Kurallar ve Tuzaklar
 
-- `.env`, parola, token ve API anahtarlarını asla commit etme.
-- Her çalışma oturumunun sonunda `session.md`ye kısa kayıt düş; görev durumunu `task.md`de güncelle.
-- Önceliklendirilmemiş fikirleri `backlog.md`ye yaz; somutlaşınca `task.md`ye taşı.
-
-## Çalışma Dosyaları
-
-| Dosya | Amaç |
-|---|---|
-| `architect.md` | Mimari ve dizin yapısı referansı |
-| `task.md` | Aktif / devam eden / tamamlanan görevler |
-| `backlog.md` | Önceliklendirilmemiş fikir ve teknik borç havuzu |
-| `session.md` | Oturum günlüğü — her oturum sonunda güncellenir |
+- **Modeller CariMatik `app.py`'deki tabloların elle kopyası.** CariMatik'te şema değişince burası kendiliğinden güncellenmez; kolon uyuşmazlığı çalışma anında SQL hatası verir.
+- Hiçbir endpoint korumalı değil ve CORS `allow_origins=["*"]` — internete açık bir sunucuda çalıştırma.
+- Yollar `/api/v2/...` önekiyle başlıyor (dosya adı v1 olsa da, CariMatik'in "v2 şeması"nı hedefliyor).
+- `config.py` commit edilmez (repo'da `.gitignore` bile yok — eklerken dikkat).
+- Oturum sonunda `session.md`'ye kayıt düş, `task.md`'yi güncelle.

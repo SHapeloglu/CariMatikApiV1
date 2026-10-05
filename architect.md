@@ -1,38 +1,21 @@
-# architect.md — 📊 Muhasebe API Mimari Referansı
-
-Bu dosya projenin yapısının hızlı-referans özetidir. Kod değiştikçe güncel tutun.
-
-## Genel Bakış
-
-Flask tabanlı muhasebe uygulamasının tüm tablolarını dışarıya açan **FastAPI** REST katmanı. Mevcut Flask uygulamasına (`app.py`) hiç dokunmadan, aynı MySQL veritabanı üzerinde çalışır. ---
-
-## Teknoloji Yığını
-
-- Python
-
-## Dizin Yapısı
+# architect.md — CariMatik API v1 Mimarisi
 
 ```
-README.md
-api.py
+İstemci ──HTTP JSON──► FastAPI (api.py, uvicorn :8000) ──SQLAlchemy/PyMySQL──► CariMatik MySQL DB
+                                                           ▲
+                                     CariMatik Flask (app.py) aynı tabloları kullanır
 ```
 
-## Modüller / Kaynak Dosyalar
+## api.py Bölümleri
 
-- `api.py` — Muhasebe API v2
-
-## Giriş Noktaları ve Yapılandırma
-
-_(belirgin giriş noktası bulunamadı)_
-
-## Dağıtım / Çalışma Ortamı
-
-- GitHub: https://github.com/SHapeloglu/CariMatikApiV1
-
-## Diğer Dokümanlar
-
-- `README.md`
+1. **Bağlantı** — `import config as cfg` ile `mysql+pymysql://…?charset=utf8mb4` engine, `SessionLocal`, `get_db()` bağımlılığı.
+2. **Modeller** — CariMatik'in v1 (Birim, Cari, Stok, Belge) ve v2 (Şirket, Depo, Banka/Kasa, Çek-Senet, Taksit, Hesap Grubu, Rapor, Kullanıcı + yetki, adres) tablolarının SQLAlchemy karşılıkları.
+3. **Pydantic şemaları** — her kaynak için `XxxCreate` / `XxxUpdate` / `XxxRead`.
+4. **Endpoint'ler** — `/api/v2/<kaynak>` altında CRUD: ~56 GET, 24 POST, 14 PUT, 22 DELETE; `/api/v2/ozet` (özet sayılar), `/health`.
+5. `get_or_404` yardımcısı, CORS (`*`).
 
 ## Mimari Kararlar
 
-_Önemli tasarım kararlarını ve gerekçelerini buraya ekleyin (ör. "X yerine Y seçildi çünkü ...")._
+- **Flask uygulamasına dokunmadan ayrı süreç**: mobil/entegrasyon istemcileri için REST, mevcut web uygulamasını riske atmadan.
+- **Modelleri kopyalama** (paylaşmak yerine): Flask-SQLAlchemy ile saf SQLAlchemy'yi aynı modellerle kullanmanın zorluğundan kaçınmak için. Bedeli şema kayması.
+- **Kimlik doğrulama sonraya bırakıldı** → V2'de eklendi.
