@@ -1,5 +1,7 @@
 # CLAUDE.md — CariMatik API v1 (FastAPI REST katmanı)
 
+> 🗄️ **ARŞİV (2026-10-07):** Bu repo artık geliştirilmiyor. Tüm endpoint'leri (117) **[CariMatikApiV2](https://github.com/SHapeloglu/CariMatikApiV2)** içinde, JWT kimlik doğrulamasıyla birlikte var; aynı kod CariMatik reposunda da (`api/`) duruyor.
+
 CariMatik (FinansApp) Flask uygulamasının MySQL şemasını, Flask koduna dokunmadan REST olarak dışarı açan **ilk** FastAPI denemesi. Tek dosya (`api.py`, ~1.900 satır): SQLAlchemy modelleri + Pydantic şemaları + ~120 endpoint. **Kimlik doğrulama yok.**
 
 - GitHub: https://github.com/SHapeloglu/CariMatikApiV1 (2026-04-29 → 05-02, web yüklemeleri)
